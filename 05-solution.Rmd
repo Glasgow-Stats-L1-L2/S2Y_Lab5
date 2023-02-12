@@ -1,0 +1,65 @@
+# Solution
+
+## Task 1
+
+(a) Read in the data and produce the scatterplots:
+```{r eval=FALSE}
+initech <- read.csv("initech.csv")
+plot(salary ~ years, data = initech)
+plot(log(salary) ~ years, data = initech)
+```
+
+(b) Statistical analysis:
+```{r eval=FALSE}
+Model3 <- lm(salary ~ years, data = initech)
+summary(Model3)
+Model4 <- lm(log(salary) ~ years, data = initech)
+summary(Model4)
+```
+
+(c) Residual plots and assumption checking:
+```{r eval=FALSE}
+plot(rstandard(Model3) ~ fitted(Model3), xlab = "Fitted values", ylab = "Standardised residuals")
+abline(h=0, lty=3, lwd=1.5)
+qqnorm(rstandard(Model3))
+qqline(rstandard(Model3)) 
+
+plot(rstandard(Model4) ~ fitted(Model4), 
+     xlab = "Fitted values", ylab = "Standardised residuals")
+abline(h=0, lty=3, lwd=1.5)
+qqnorm(rstandard(Model4))
+qqline(rstandard(Model4)) 
+```
+
+(e) The regression equation with years of experience as the predictor variable and log-transformed salary as the response variable is given by:
+\[\log(\text{Salary})=10.48 + 0.079 \cdot \text{Years}\]
+For an individual with 10 years of experience, the predicted value of salary is $\exp(10.48)\cdot \exp(0.079\cdot 10)\approx 78433$.
+
+## Task 2
+
+(a) Read in the data and produce the scatterplots:
+```{r eval=FALSE}
+mammals <- read.csv("mammals.csv")
+plot(body_wt ~ brain_wt, data = mammals)
+plot(body_wt ~ log(brain_wt), data = mammals)
+plot(log(body_wt) ~ log(brain_wt), data = mammals)
+```
+
+(b) For this particular dataset, it doesn't matter whether the body weight is the response or the brain weight is the response. The analysis below is performed assuming body weight is the response. 
+```{r eval=FALSE}
+Model5 <- lm(log(body_wt) ~ log(brain_wt), data = mammals)
+summary(Model5)
+```
+
+(c) Residual plots and assumption checking:
+```{r eval=FALSE}
+plot(rstandard(Model5) ~ fitted(Model5), xlab = "Fitted values", ylab = "Standardised residuals")
+abline(h=0, lty=3,lwd=1.5)
+qqnorm(rstandard(Model5))
+qqline(rstandard(Model5)) 
+```
+
+(d) The regression equation with $\log$(body weight) as the predictor variable and log-transformed salary as the response variable is given by:
+\[\log(\text{body}\_\text{wt})=-2.51 + 1.22 \cdot \log(\text{body}\_\text{wt})\]
+When predicting the value of body weight, we back transform the variable as $\text{body}\_\text{wt} = \exp(-2.51)\cdot\text{body}\_\text{wt}^{1.22}$. For example, for a mammal with brain weight of 20, the predicted body weight is $\exp(-2.51)\cdot20^{1.22}\approx 3.14$. Note that your choice of brain weight should be within the range of 0.14 and 5712, i.e. the minimum and maximum value of brain weight in this dataset.
+

@@ -1,0 +1,58 @@
+# Optional activity: more on log-transformation
+
+The following two datasets may be explored to understand the effect of applying log-transformation on $y$ only and on both $x$ and $y$. 
+
+Remark: Identifying the appropriate transformation to address violation of assumptions is beyond the scope of this course. 
+
+## Log-transformation on $y$
+
+Log-transforming the response variable may be considered when the assumptions of constant variances and/or non-normality are violated. As an added bonus, transforming the response variable may also help mitigate the problem of a curved relationship. To understand the effect of log-transforming $y$, we look at a (fictional) salary data from the (fictional) company Initech.
+
+**Data: initech.csv**
+
+**Columns:**
+
+|               **C1: &emsp; years of experience**
+
+|               **C2: &emsp; salary**
+
+<br>
+**TASK 1**
+
+(a) Produce a scatterplot of salary versus years. What can we say about this relationship? 
+(b) Fit a simple linear regression model to predict salary from year. Interpret the estimated parameters. 
+(c) Produce residual plots and comment on the assumptions for the simple linear regression model.
+(d) Repeat the above using $\log$(salary) and compare the residual plots.
+(e) Using the model with the transformed response $\log(Y)$, predict the salary for someone with 10 years of experience. 
+
+`r hide("Hint")`
+After back transformation, $Y=e^{\alpha} e^{\beta x}$.
+`r unhide()`
+
+## log-transformation on both $x$ and $y$
+
+Log-transforming both the response variable and the predictor variable may be useful in the scenario that the relationship is non-linear and the errors are not normal and have unequal variances.
+
+**Source**: Allison, T., & Cicchetti, D. V. (1976). Sleep in mammals: ecological and constitutional correlates. Science, 194(4266), 732-734.
+
+**Context**: The original data were used for analysing the relationship between constitutional and ecological factors and sleeping (dreaming and non-dreaming) in mammals. Constitutional variables such as life span, body weight, brain weight and gestation time were evaluated. Ecological variables such as severity of predation, safety of sleeping place and overall danger were inferred from field observations in the literature. We are interested in finding out if how body weight and brain weight are related. 
+
+**Data: mammals.csv**
+
+**Columns:**
+
+|               **C1: &emsp; body_wt &emsp; years of experience**
+
+|               **C2: &emsp; brain_wt &emsp;salary**
+
+<br>
+**TASK 2**
+
+(a) Produce scatterplots of body weight versus brain weight, using both original variables and log-transformed variables. Which pair seems to have a linear relationship? 
+(b) Fit a simple linear regression model to describe the relationship between $\log$(body weight) and $\log$(brain weight). 
+(c) Examine the fit of the model using the coefficient of determination, $R^2$, as well as residual plots.
+(d) Interpret the estimated parameters and use them to estimate the mean body weight with brain weight of your choice. 
+
+
+
+

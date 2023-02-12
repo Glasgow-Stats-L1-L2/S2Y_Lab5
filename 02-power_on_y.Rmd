@@ -1,0 +1,77 @@
+# Example 2: power transformation on $y$
+
+The `stopping.csv` file contains 63 observations of cars. In these observations, two variables were recorded, namely the speed of cars when the brakes were applied (in mile per hour) and the stopping distance (in feet). Our question of interest is determine if there is a relationship between the speed of cars and the distance taken to stop.
+
+## Exploratory analysis
+
+The scatterplot of distance ($Y$) against the speed ($x$) in Figure \@ref(fig:stopping) (left) shows that the variables do not appear to be linearly related. A possible remedy is to transform $Y$ into $\sqrt{Y}$. A new scatterplot, Figure \@ref(fig:stopping) (right), is obtained by using the command:
+
+```{r stopping, echo=FALSE, fig.cap="Left: scatterplot of *Distance* versus *Speed*. Right: scatterplot of *square root of Distance* versus *Speed*.", fig.align='center'}
+stopping <- read.csv("stopping.csv")
+par(mfrow=c(1,2))
+par(mar=c(4,4,2,1))
+plot(Distance~Speed, data=stopping,
+     xlab="Speed (in MPH)", ylab="Distance (in feet)")
+plot(sqrt(Distance)~Speed, data=stopping,
+     xlab="Speed (in MPH)", ylab="Square root of distance (in feet)")
+```
+
+As the relationship now appears to be linear, we will build a simple linear regression model between $\sqrt{\text{distance}}$ (as new $Y$) and speed as
+\[Y_i = \alpha + \beta x_i + \epsilon_i,\quad \epsilon_i \sim N(0,\sigma^2), \quad i = 1,\ldots, 63,\]
+which can be fitted by using the \texttt{R} command:
+```{r}
+Model2 <- lm(sqrt(Distance) ~ Speed, data = stopping)
+```
+
+
+## Assumption checking
+Figure \@ref(fig:stopping2) gives the residual plots after fitting a simple linear regression model to the original  variables. 
+
+```{r echo=FALSE, fig.align='center', out.width="70%"}
+Model2 <- lm(Distance ~ Speed, data = stopping)
+plot(rstandard(Model2) ~ fitted(Model2))
+```
+
+```{r stopping2, echo=FALSE, fig.cap="Residual plots from fitting a simple linear regression model to original variables. Top: Standardised residuals versus fitted values. Bottom: Normal probability (Q-Q) plot.", fig.align='center', out.width="70%"}
+qqnorm(rstandard(Model2))
+qqline(rstandard(Model2))
+```
+
+The plots show the problems of curvature, non-constant variance and non-normality, indicating that the wrong type of model was used.
+
+Figure \@ref(fig:stopping3) gives the residual plots after fitting a simple linear regression model to the transformed variables. 
+
+```{r echo=FALSE, fig.align='center', out.width="70%"}
+Model2 <- lm(sqrt(Distance) ~ Speed, data = stopping)
+plot(rstandard(Model2) ~ fitted(Model2))
+```
+
+```{r stopping3, echo=FALSE, fig.cap="Residual plots from fitting a simple linear regression model to transformed variables. Top: Standardised residuals versus fitted values. Bottom: Normal probability (Q-Q) plot.", fig.align='center', out.width="70%"}
+qqnorm(rstandard(Model2))
+qqline(rstandard(Model2))
+```
+
+The curvature disappears and the variance is almost constant across the range of fitted values. The normality assumption, however, remains to be invalid. This is not ideal but, on the positive side, the estimates of parameters will not be affected and hence we can still use the model to describe the relationship between variables and make predictions.  
+
+### Regression output
+```{r}
+summary(Model2)
+```
+
+**QUESTION**:
+
+(a) Write down the equation of the fitted model. 
+`r hide("Solution")`
+The regression equation is
+\[\sqrt{\text{Distance}} = 0.918 + 0.253 \cdot \text{Speed} \]
+`r unhide()`
+
+(b) Based on the regression equation in (a), comment on the relationship between speed and square root of distance. In addition, pick a speed value yourself and predict the distance for this speed. 
+
+`r hide("Solution")`
+The estimated parameter of $0.253$ suggests the square root of distance is positively linearly related to speed. As the speed increases by 1 MPH, the expected square root of distance increases by 0.253 feet. 
+
+When predicting the value of the response, we back transform the variable as $\text{Distance} = (0.918 + 0.253 \cdot \text{Speed})^2$. For example, if the speed is 20 MPH, the predicted distance is $(0.918+0.252\cdot 20)^2 \approx 35.64$ feet.
+
+Note that our model is built only for speed ranging from 4 to 40. It would be unwise to make predictions outside this range in the absence of other information. 
+`r unhide()`

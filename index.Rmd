@@ -1,0 +1,55 @@
+---
+title: |
+    | S2Y Lab 5
+    | Further examination on model fit and assumptions - ANOVA, residual plots and transformations
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+biblio-style: apalike
+link-citations: yes
+---
+
+```{r setup, include = FALSE}
+library(webexercises)
+library(tinytex)
+library(dplyr)
+library(knitr)
+knitr::opts_chunk$set(echo=TRUE, eval=TRUE)
+
+```
+
+
+```{r include=FALSE, echo=FALSE}
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
+
+
+# Welcome to S2Y Lab 5
+
+Intended Learning Outcomes:
+
+-  use `R` to fit linear models with transformed variables;
+- obtain the elements of an analysis of variance (ANOVA) table;
+- use the ANOVA table to compute and interpret the $F$-statistic and its hypothesis test.
+
+## Introduction
+
+In the lectures we studied analysis of variance (ANOVA) table which can be used to investigate the variability explained by the model and to test the null hypothesis that the parameters in the model of interest are zero:
+
+<p align = "center">
+H$_0$: all $p-1$ parameters = 0 &emsp; versus &emsp; H$_1$: at least one parameter $\neq$ 0
+</p>
+
+
+Component    DF       Sum Sq (SS)    Mean Sq (MS)   F
+-----------  -------  -------------  -------------  --------
+Model        $p-1$    MSS            MSS/($p-1$)    $\frac{\text{MSS}/(p-1)}{\text{RSS}/(n-p)}$
+Residual     $n-p$    RSS            RSS/($n-p$)  
+Total        $n-1$    TSS    
+
+<br>
+We also learned to apply logarithmic transformation to both response and predictor variables following scientific guidance. 
+
+In today’s lab we will first revisit least squares estimate, the coefficient of determination ($R^2$) and the analysis of variance (ANOVA) table to deepen understanding of the `R` output. Then we will consider more types of transformations, to the response and/or predictors, and see how they help improve the model fit and correct violations of model assumptions.
